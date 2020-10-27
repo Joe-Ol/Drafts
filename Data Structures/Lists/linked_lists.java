@@ -2,18 +2,6 @@ public class Linked_Lists {
 
 
     /*
-    MEMBERS:
-    EMMANUEL OLANG' 999999 - A
-    EMMANUEL OLANG' 999999 - A
-    EMMANUEL OLANG' 999999 - A
-
-
-    STEPS,
-    1.
-    2.
-    3.
-
-
     We declare a Head node to ensure all nodes point back to one 'HEAD/START'
     in the cases where we append new nodes at the beginning i.e. prepend/insert
     at head.
