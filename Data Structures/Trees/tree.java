@@ -22,7 +22,7 @@ class Node{
         }
     }
 
-    //finding an element in a tree structure
+    //finding an element in a tree structure  (SEARCH) , Comment each step accordingly
     public boolean check(int value) {
         if (value == data) {
             return true;
@@ -44,22 +44,26 @@ class Node{
 
     public void in_order_print(){
         if (left != null) {
-            left.in_order_print();    // Step 1
+            left.in_order_print();      // Step 1
         }
-        System.out.println(data);     // Step 2
+        System.out.println(data);       // Step 2
         if (right != null) {
-            right.in_order_print();   // step 3
+            right.in_order_print();     // Step 3
         }
     }
 
-    public void post(){
+    public void post_order(){
         if (right != null) {
-            right.post();
+            right.post_order();
         }
         if (left != null) {
-            left.post();
+            left.post_order();
         }
         System.out.println(data);
+    }
+
+    public void pre_order(){        //Finish writing this method
+
     }
 
     public static void main(String [] args) {
@@ -70,8 +74,10 @@ class Node{
         our_tree.add(17);
         our_tree.add(3);
 
-        //our_tree.in_order_print();
-        our_tree.post();
+        System.out.println("Post Order");
         our_tree.in_order_print();
+        System.out.println("Post Order");
+        our_tree.post_order();
+
     }
 }
