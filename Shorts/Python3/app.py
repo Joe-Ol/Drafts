@@ -1,19 +1,28 @@
+"""
+1. Download the student class list from ams and name it CL or any other name just keep it in mind.
+2. Convert downloaded class list into CSV
+3. Import CSV classlist file
+4. Import Zoom Meeting report file
+"""
+
+
+
 import pandas as pd
 import tabula
 import re
 
 # convert PDF into CSV file
-tabula.convert_into("CL.pdf", "CL.csv", output_format="csv", pages='all')
+tabula.convert_into("CL.pdf", "CL.csv", output_format="csv", pages='all')   # import class list and convert into a csv
 
-class_list = pd.read_csv("CL.csv")
-class_list_numbers = class_list['Student Number'].values.tolist()
+class_list = pd.read_csv("CL.csv")      # import converted csv class list file into a dataframe
+class_list_numbers = class_list['Student Number'].values.tolist()   # capture student numbers from class list dataframe.
 while True:
     try:
         class_list_numbers.remove("Student Number")
     except:
         break
 
-att_list = pd.read_csv("AT.csv")
+att_list = pd.read_csv("AT.csv")    # Import zoom meeting report file i.e. attedance list
 
 
 def extract_number(x):
