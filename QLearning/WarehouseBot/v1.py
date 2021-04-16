@@ -1,8 +1,8 @@
-'''
+"""
 
 Environment = States, Action and Rewards
 
-'''
+"""
 
 import numpy as np
 
@@ -15,8 +15,9 @@ q_values = np.zeros((environment_rows, environment_cols, 4))
 
 actions = ['up', 'right', 'down', 'left']
 
-rewards = np.full((environment_cols, environment_rows, 4), -100.)
+rewards = np.full((environment_cols, environment_rows), -100.)
 rewards[0, 5] = 100     # End goal
+
 
 # Define Pathways
 paths = {}
@@ -35,20 +36,20 @@ for row_index in range(1, 10):
     for col_index in paths[row_index]:
         rewards[row_index, col_index] = 1.
 
-for row in rewards:
-    print(row)
+# for row in rewards:
+    # print(row)
 
 
 def is_terminal_state(current_row_index, current_column_index):
     # basically check if the reward at this position is -1 i.e. a white box
-    if rewards[current_row_index, current_column_index] == -1:
+    if rewards[current_row_index, current_column_index] == -1.:
         return False
     else:
         return True
 
 
 # Function to choose some random but non terminal starting point
-def get_starting_point():
+def get_starting_location():
     # get a random row & column
     current_row_index = np.random.randint(environment_rows)
     current_column_index = np.random.randint(environment_rows)
@@ -71,7 +72,7 @@ def get_next_action(current_row_index, current_column_index, epsilon):
         return  np.argmax(q_values[current_row_index, current_column_index])
     else:   # choose a random action
         return  np.random.randint(4)
-    
+
 
 # define a function that will get the next location based on the chosen action
 def get_next_location(current_row_index, current_col_index, action_index):
@@ -90,7 +91,7 @@ def get_next_location(current_row_index, current_col_index, action_index):
     return new_row_index, new_col_index
 
 
-# define fucntion to ge the shortest path
+# define function to ge the shortest path
 def get_shortest_path(start_row_index, start_column_index):
     # Return immediately if this is an invalid starting point
     if is_terminal_state(start_row_index, start_column_index):
@@ -99,10 +100,46 @@ def get_shortest_path(start_row_index, start_column_index):
         current_row_index, current_col_index = start_row_index, start_column_index
         shortest_path = []
         shortest_path.append([current_row_index, current_col_index])
-        
+
         while not is_terminal_state(current_row_index, current_col_index):
             action_index = get_next_action(current_row_index, current_col_index, 1)
             current_row_index, current_col_index = get_next_location(current_row_index, current_col_index, action_index)
             shortest_path.append([current_row_index, current_col_index])
         return shortest_path
+
+
+# Training
+epsilon = 0.9   # the percentage of time we should take the best action
+discount_factor = 0.9   # the discount factor for future rewards
+learning_rate = 0.9
+
+# run through 100 training episodes
+for episode in range(3):
+    # get starting location for this episode
+    row_index, col_index = get_starting_location()
+
+    # continue moving till termianl state is reached
+    while not is_terminal_state(row_index, col_index):
+        # choose which location to take:
+        action_index = get_next_action(row_index, col_index, epsilon)
+
+        # perform chosen action
+        old_row_index, old_col_index = row_index, col_index
+        row_index, col_index = get_next_location(row_index, col_index, action_index)
+
+        # receive the reward for moving to the new state, and calculate the temporal difference
+        reward = rewards[row_index, col_index]
+        old_q_value = q_values[old_row_index, old_col_index, action_index]
+        temporal_difference = reward + (discount_factor * np.max(q_values[row_index, col_index])) - old_q_value
+
+        # update the q-value for the previous state and action pair
+        new_q_value = old_q_value + (learning_rate * temporal_difference)
+        q_values[old_row_index, old_col_index, action_index] = new_q_value
+
+# print("Training Complete")
+
+# print(get_shortest_path(3, 9))
+# path = get_shortest_path(5, 2)
+# path.reverse()
+# print(path)
 
