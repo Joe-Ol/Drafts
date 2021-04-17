@@ -54,7 +54,6 @@ def get_starting_location():
     while is_terminal_state(current_column_index, current_column_index):
         current_row_index = np.random.randint(environment_rows)
         current_column_index = np.random.randint(environment_columns)
-
     return current_row_index, current_column_index
 
 
@@ -65,9 +64,9 @@ def get_next_action(current_row_index, current_column_index, epsilon):
     then choose the most promising value from the Q-table for this state
     """
     if np.random.random() < epsilon:
-        return  np.argmax(q_values[current_row_index, current_column_index])
+        return np.argmax(q_values[current_row_index, current_column_index])
     else:   # choose a random action
-        return  np.random.randint(4)
+        return np.random.randint(4)
 
 
 # define a function that will get the next location based on the chosen action
@@ -77,11 +76,11 @@ def get_next_location(current_row_index, current_column_index, action_index):
     if actions[action_index] == 'up' and current_row_index > 0:
         new_row_index -= 1
     elif actions[action_index] == 'right' and current_column_index < environment_columns - 1:
-        new_row_index += 1
+        new_column_index += 1
     elif actions[action_index] == 'down' and current_row_index < environment_rows - 1:
         new_row_index += 1
     elif actions[action_index] == 'left' and current_column_index > 0:
-        new_row_index -= 1
+        new_column_index -= 1
     return new_row_index, new_column_index
 
 
@@ -133,9 +132,9 @@ for episode in range(1000):
 # print("Training Complete")
 
 # print(get_shortest_path(3, 9))
-# path = get_shortest_path(5, 2)
-# path.reverse()
-# print(path)
+# print(get_shortest_path(3, 9))
 
-print(get_shortest_path(9, 2))
+path = get_shortest_path(9, 5)
+path.reverse()
+print(path)
 
