@@ -111,7 +111,7 @@ for episode in range(1000):
     # get starting location for this episode
     row_index, col_index = get_starting_location()
 
-    # continue moving till termianl state is reached
+    # continue moving till terminal state is reached
     while not is_terminal_state(row_index, col_index):
         # choose which location to take:
         action_index = get_next_action(row_index, col_index, epsilon)
