@@ -8,10 +8,10 @@ environment_columns = 11
 
 # Create a 3D numpy array to hold the current Q-values for each state and action pair: Q(s, a) 
 # The value of each (state, action) pair is initialized to 0.
-q_values = np.zeros((environment_rows, environment_cols, 4))
+q_values = np.zeros((environment_rows, environment_columns, 4))
 actions = ['up', 'right', 'down', 'left']
 
-rewards = np.full((environment_cols, environment_rows), -100.)
+rewards = np.full((environment_rows, environment_columns), -100.)
 rewards[0, 5] = 100     # End goal
 
 
@@ -64,25 +64,25 @@ def get_next_action(current_row_index, current_column_index, epsilon):
     if a randomly chosen value between 0 aad 1 is less than the epsilon,
     then choose the most promising value from the Q-table for this state
     """
-    if np.random() < epsilon:
+    if np.random.random() < epsilon:
         return  np.argmax(q_values[current_row_index, current_column_index])
     else:   # choose a random action
         return  np.random.randint(4)
 
 
 # define a function that will get the next location based on the chosen action
-def get_next_location(current_row_index, current_col_index, action_index):
+def get_next_location(current_row_index, current_column_index, action_index):
     new_row_index = current_row_index
-    new_col_index = current_col_index
+    new_column_index = current_column_index
     if actions[action_index] == 'up' and current_row_index > 0:
         new_row_index -= 1
-    elif actions[action_index] == 'right' and current_col_index < environment_columns - 1:
+    elif actions[action_index] == 'right' and current_column_index < environment_columns - 1:
         new_row_index += 1
     elif actions[action_index] == 'down' and current_row_index < environment_rows - 1:
         new_row_index += 1
-    elif actions[action_index] == 'left' and current_col_index > 0:
+    elif actions[action_index] == 'left' and current_column_index > 0:
         new_row_index -= 1
-    return new_row_index, new_col_index
+    return new_row_index, new_column_index
 
 
 # define function to ge the shortest path
@@ -91,14 +91,14 @@ def get_shortest_path(start_row_index, start_column_index):
     if is_terminal_state(start_row_index, start_column_index):
         return []
     else:
-        current_row_index, current_col_index = start_row_index, start_column_index
+        current_row_index, current_column_index = start_row_index, start_column_index
         shortest_path = []
-        shortest_path.append([current_row_index, current_col_index])
+        shortest_path.append([current_row_index, current_column_index])
 
-        while not is_terminal_state(current_row_index, current_col_index):
-            action_index = get_next_action(current_row_index, current_col_index, 1.)
-            current_row_index, current_col_index = get_next_location(current_row_index, current_col_index, action_index)
-            shortest_path.append([current_row_index, current_col_index])
+        while not is_terminal_state(current_row_index, current_column_index):
+            action_index = get_next_action(current_row_index, current_column_index, 1.)
+            current_row_index, current_column_index = get_next_location(current_row_index, current_column_index, action_index)
+            shortest_path.append([current_row_index, current_column_index])
         return shortest_path
 
 
@@ -108,7 +108,7 @@ discount_factor = 0.9   # the discount factor for future rewards
 learning_rate = 0.9
 
 # run through 100 training episodes
-for episode in range(100):
+for episode in range(1000):
     # get starting location for this episode
     row_index, col_index = get_starting_location()
 
@@ -136,4 +136,6 @@ for episode in range(100):
 # path = get_shortest_path(5, 2)
 # path.reverse()
 # print(path)
+
+print(get_shortest_path(9, 2))
 
