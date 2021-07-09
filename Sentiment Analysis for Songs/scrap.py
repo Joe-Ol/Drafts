@@ -7,6 +7,6 @@ import os
 # Search and manipulate strings
 import re
 
-API_TOKEN = 'SFLEvufjeXvnVqx332QML6KWaoivT9SDbZxzbmhV4xRlqCaLg2E3zn2-u9HePhBz'
+API_TOKEN = ''
 
 
