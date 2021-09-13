@@ -1,6 +1,0 @@
-# Required software libraries
-# Run pip install -r /path/to/requirements.txt to install
-
-pandas~=1.2.1
-tabula~=1.0.5
-easygui~=0.98.2
