@@ -19,19 +19,10 @@ query = {'q': 'to%3ASafaricom_Care',
 # Create a dict object to keep track of the tweets
 dict_ = {'user': [], 'date': [], 'text': [], 'favorite_count': [], 'location': [], 'hashtags': []}
 
+
 # Run the search API call
 for status in python_tweets.search(**query)['statuses']:
     # Add the data we would like
-    dict_['hashtags'].append(status['entities']['hashtags'])
-    dict_['user'].append(status['user']['screen_name'])
-    dict_['location'].append(status['user']['location'])
-    dict_['date'].append(status['created_at'])
-    dict_['text'].append(status['text'])
-    dict_['favorite_count'].append(status['favorite_count'])
-
-
-# Keep collecting the tweets
-for status in python_tweets.search(**query)['statuses']:
     dict_['hashtags'].append(status['entities']['hashtags'])
     dict_['user'].append(status['user']['screen_name'])
     dict_['location'].append(status['user']['location'])
